@@ -1,0 +1,17 @@
+			BILL
+
+			Gordon Ramsay's Restaurant			
+London, Main Street 10
+
+
+Menu		Quantity     Price     Total
+
+Salata		   1  		2	  2
+Cartofi		   1  		3	  3
+Salata		   1  		2	  2
+Cartofi		   1  		3	  3
+
+
+				Number of table: 1
+
+				Total amount: 10 RON
