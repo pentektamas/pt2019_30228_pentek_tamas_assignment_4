@@ -352,10 +352,10 @@ public class AdministratorGraphicalUserInterface extends JPanel implements Resta
 		}
 	}
 
-	public void createNewOrder(Order key, ArrayList<MenuItem> value) {
+	public void createNewOrder(Order key, List<MenuItem> value) {
 	}
 
-	public void generateBill() {
+	public void generateBill(Order order) {
 	}
 
 	public void computePrice(Order o) {

@@ -5,14 +5,9 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.*;
-import javax.swing.table.TableModel;
-
 import RestaurantProject.ManagementSystem.BusinessLayer.MenuItem;
 import RestaurantProject.ManagementSystem.BusinessLayer.Order;
 import RestaurantProject.ManagementSystem.BusinessLayer.Restaurant;
@@ -23,10 +18,11 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 	private JLabel select = new JLabel("Select an operation: ");
 	private JButton newOrder = new JButton("Add new order");
 	private JButton viewAll = new JButton("View all orders");
-	private JButton bill = new JButton("Create a bill");
+//	private JButton bill = new JButton("Create a bill");
 
 	private JButton add = new JButton("Add");
 	private JButton finish = new JButton("Finish");
+	private JCheckBox computeBill = new JCheckBox("Compute Bill");
 	private Restaurant restaurant;// = new Restaurant();
 	private JTable t;// = MainWindow.createTable(restaurant.getNames(), restaurant.getPrices());
 	private JScrollPane scrollPane = new JScrollPane(t);
@@ -37,7 +33,7 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 	private JCheckBox b4 = new JCheckBox("4");
 	private JCheckBox b5 = new JCheckBox("5");
 	private ButtonGroup group = new ButtonGroup();
-	private ArrayList<MenuItem> values = new ArrayList<MenuItem>();
+	private List<MenuItem> values;
 	// price for an Order???????????????????
 	JPanel p = new JPanel();
 	JPanel order = new JPanel();
@@ -46,19 +42,24 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 	JPanel p3 = new JPanel();
 	JPanel p6 = new JPanel();
 
-	private JLabel bills = new JLabel("Create a bill for: ");
-	JList orders;
-	private JPanel billGenerator = new JPanel();
-	private JPanel p11 = new JPanel();
-	private JPanel p12 = new JPanel();
-	private JButton create=new JButton("Create");
-	private JPanel p13=new JPanel();
+	/*
+	 * private JLabel bills = new JLabel("Create a bill for: "); private JList
+	 * orders2; private JPanel billGenerator = new JPanel(); private JPanel p11 =
+	 * new JPanel(); private JPanel p12 = new JPanel(); private JButton create = new
+	 * JButton("Create"); private JPanel p13 = new JPanel(); private List<Order>
+	 * orderList = new ArrayList<Order>();
+	 */
+
+	private JPanel viewOrders = new JPanel();
+	private JList ordersList;
+	private JPanel p15 = new JPanel();
 
 	public WaiterGraphicalUserInterface(Restaurant restaurant) {
 		this.restaurant = restaurant;
 		t = MainWindow.createTable(restaurant.getNames(), restaurant.getPrices());
-		orders = new JList(restaurant.getOrderIDs().toArray());
-
+//		orders2 = new JList(restaurant.getOrderIDs().toArray());
+		ordersList = new JList(restaurant.getOrderIDs().toArray());
+		values = new ArrayList<MenuItem>();
 		BorderLayout layout = new BorderLayout();
 		this.setLayout(layout);
 
@@ -77,11 +78,12 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 		p.add(select);
 		p.add(newOrder);
 		p.add(viewAll);
-		p.add(bill);
+//		p.add(bill);
 
 		BorderLayout layout2 = new BorderLayout();
 		p2.add(add);
 		p3.add(finish);
+		p3.add(computeBill);
 		p4.add(scrollPane);
 		order.setLayout(layout2);
 		order.add(p6, BorderLayout.LINE_START);
@@ -90,24 +92,23 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 		order.add(p3, BorderLayout.PAGE_END);
 
 		GridLayout layout3 = new GridLayout(0, 1);
-		billGenerator.setLayout(layout3);
-		p12.add(bills);
-		p11.add(orders);
-		p13.add(create);
-		billGenerator.add(p12);
-		billGenerator.add(p11);
-		billGenerator.add(p13);
+		/*
+		 * billGenerator.setLayout(layout3); p12.add(bills); p11.add(orders2);
+		 * p13.add(create); billGenerator.add(p12); billGenerator.add(p11);
+		 * billGenerator.add(p13);
+		 */
 
-		// scrollPane.setPreferredSize(new Dimension(250,200));
-		// scrollPane.setAutoscrolls(true);
+		p15.add(ordersList);
+		viewOrders.add(p15);
+
 		this.add(p, BorderLayout.PAGE_START);
-		// this.setSize(new Dimension(300,200));
 		this.setVisible(true);
 		this.addNewOrderListener();
 		this.addViewAllListener();
-		this.addBillListener();
+//		this.addBillListener();
 		this.addAddListener();
 		this.addFinishListener();
+//		this.addCreateBillListener();
 	}
 
 	public void addNewOrderListener() {
@@ -117,7 +118,6 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 				scrollPane.removeAll();
 				p4.remove(scrollPane);
 				t = MainWindow.createTable(restaurant.getNames(), restaurant.getPrices());
-				// addTableListener();
 				scrollPane = new JScrollPane(t);
 				scrollPane.setPreferredSize(new Dimension(250, 200));
 				scrollPane.revalidate();
@@ -125,7 +125,8 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 				order.updateUI();
 				add(order, BorderLayout.CENTER);
 				order.setVisible(true);
-				billGenerator.setVisible(false);
+//				billGenerator.setVisible(false);
+				viewOrders.setVisible(false);
 				updateUI();
 				for (String s : restaurant.getNames()) {
 					System.out.println("ssss " + s);
@@ -138,21 +139,11 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 		viewAll.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				ordersList.setListData(restaurant.getOrderIDs().toArray());
+				add(viewOrders, BorderLayout.CENTER);
 				order.setVisible(false);
-				billGenerator.setVisible(false);
-			}
-
-		});
-	}
-
-	public void addBillListener() {
-		bill.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				orders.setListData(restaurant.getOrderIDs().toArray());
-				add(billGenerator, BorderLayout.CENTER);
-				order.setVisible(false);
-				billGenerator.setVisible(true);
+//				billGenerator.setVisible(false);
+				viewOrders.setVisible(true);
 				updateUI();
 			}
 
@@ -160,20 +151,12 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 	}
 
 	/*
-	 * public void addTableListener() { t.addMouseListener(new MouseListener() {
+	 * public void addBillListener() { bill.addActionListener(new ActionListener() {
 	 * 
-	 * public void mouseClicked(MouseEvent e) { int selectedRow =
-	 * t.getSelectedRow(); //TableModel model = t.getModel();
-	 * //menuName.setText((String) model.getValueAt(selectedRow, 0));
-	 * //priceName.setText(model.getValueAt(selectedRow, 1) + ""); }
-	 * 
-	 * public void mousePressed(MouseEvent e) { }
-	 * 
-	 * public void mouseReleased(MouseEvent e) { }
-	 * 
-	 * public void mouseEntered(MouseEvent e) { }
-	 * 
-	 * public void mouseExited(MouseEvent e) { }
+	 * public void actionPerformed(ActionEvent e) {
+	 * orders2.setListData(restaurant.getOrderIDs().toArray()); add(billGenerator,
+	 * BorderLayout.CENTER); order.setVisible(false);
+	 * billGenerator.setVisible(true); viewOrders.setVisible(false); updateUI(); }
 	 * 
 	 * }); }
 	 */
@@ -193,63 +176,53 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 
 	public void addFinishListener() {
 		finish.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				Order newOrder = new Order();
 				if (b1.isSelected())
 					newOrder.setTable(Integer.parseInt(b1.getText()));
-				if (b2.isSelected())
+				else if (b2.isSelected())
 					newOrder.setTable(Integer.parseInt(b2.getText()));
-				if (b3.isSelected())
+				else if (b3.isSelected())
 					newOrder.setTable(Integer.parseInt(b3.getText()));
-				if (b4.isSelected())
+				else if (b4.isSelected())
 					newOrder.setTable(Integer.parseInt(b4.getText()));
-				if (b5.isSelected())
-					newOrder.setTable(Integer.parseInt(b5.getText()));
+				else {
+					if (b5.isSelected())
+						newOrder.setTable(Integer.parseInt(b5.getText()));
+					else {
+						JOptionPane.showMessageDialog(null, "Error! Select a table!", "ORDER",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				}
 
-				System.out.println(newOrder.hashCode());
+//				orderList.add(newOrder);
 				createNewOrder(newOrder, values);
-				ArrayList<MenuItem> m = restaurant.getOrders().get(newOrder.hashCode());
-				if (m != null) {
-					for (MenuItem f : m) {
-						System.out.println(f.getName() + " " + f.getPrice());
-					}
+				if (computeBill.isSelected()) {
+					generateBill(newOrder);
+					JOptionPane.showMessageDialog(null, "Order succesfully added and bill created!", "ORDER",
+							JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Order succesfully added!", "ORDER",
+							JOptionPane.INFORMATION_MESSAGE);
 				}
-				System.out.println("MAP: " + restaurant.getOrders().size());
-
-				for (Order variableName : restaurant.getOrders().keySet()) {
-					Order variableKey = variableName;
-					ArrayList<MenuItem> variableValue = restaurant.getOrders().get(variableName);
-
-					System.out.println("OrderID: " + variableKey.getOrderID());
-					System.out.println("Date: " + variableKey.getDate());
-					System.out.println("Table: " + variableKey.getTable());
-					if (variableValue != null) {
-
-						for (MenuItem df : variableValue)
-							System.out.println("Number: " + df.getName() + "  " + df.getPrice());
-					}
-				}
-				restaurant.createBill(newOrder);
 				values.clear();
-				JOptionPane.showMessageDialog(null, "Order succesfully added!", "ORDER",
-						JOptionPane.INFORMATION_MESSAGE);
 			}
-
 		});
 	}
-	
-	public void addCreateBillListener() {
-		create.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent e) {
-				//int index=(Integer) orders.getSelectedValue();
-				//String value=orders.getSelectedValue();
-			//	value.substring(0, 3);
-			}
-			
-		});
-	}
+	/*
+	 * public void addCreateBillListener() { create.addActionListener(new
+	 * ActionListener() {
+	 * 
+	 * public void actionPerformed(ActionEvent e) { String x = (String)
+	 * orders2.getSelectedValue(); String y = x.substring(0, 3);
+	 * System.out.println(y + " DDD"); for (Order o : orderList) { if
+	 * (Integer.parseInt(y) == o.getOrderID()) { generateBill(o);
+	 * System.out.println("CREATED"); } } }
+	 * 
+	 * }); }
+	 */
 
 	public void createNewMenu(MenuItem m) {
 	}
@@ -260,12 +233,12 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 	public void editMenuItem(int nrRow) {
 	}
 
-	public void createNewOrder(Order key, ArrayList<MenuItem> value) {
+	public void createNewOrder(Order key, List<MenuItem> value) {
 		restaurant.addNewOrder(key, value);
 	}
 
-	public void generateBill() {
-		// TODO Auto-generated method stub
+	public void generateBill(Order order) {
+		restaurant.createBill(order);
 
 	}
 

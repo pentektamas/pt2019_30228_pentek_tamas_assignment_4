@@ -1,6 +1,6 @@
 package RestaurantProject.ManagementSystem.BusinessLayer;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface RestaurantProcessing {
 
@@ -10,9 +10,9 @@ public interface RestaurantProcessing {
 
 	public void editMenuItem(int nrRow);
 
-	public void createNewOrder(Order key, ArrayList<MenuItem> value);
+	public void createNewOrder(Order key, List<MenuItem> value);
 
-	public void generateBill();
+	public void generateBill(Order order);
 
 	public void computePrice(Order o);
 }
