@@ -1,17 +1,17 @@
 package RestaurantProject.ManagementSystem.DataLayer;
 
+import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import RestaurantProject.ManagementSystem.BusinessLayer.MenuItem;
 
-public class RestaurantSerializator implements Serializable {
+public class RestaurantSerializator {
 
 	private String filename = "restaurantMenus.ser";
 
@@ -29,7 +29,7 @@ public class RestaurantSerializator implements Serializable {
 			file.close();
 			System.out.println("Serialization is done!");
 
-		} catch (IOException ex) {
+		} catch (IOException e) {
 			System.out.println("InputOutput exception - serialization");
 		}
 	}
@@ -51,10 +51,13 @@ public class RestaurantSerializator implements Serializable {
 			}
 			inputObject.close();
 			file.close();
-			System.out.println("DeSerialization is done!");
-		} catch (IOException ex) {
+			System.out.println("GSHHEHSF-DESERIALIZATION");
+		} catch (EOFException e) {
+			System.out.println("DESerialization is done!");
+		} catch (IOException e) {
 			System.out.println("InputOutput exception - deserialization");
-		} catch (ClassNotFoundException ex) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			System.out.println("ClassNotFoundException  - deserialization");
 		}
 		return menus;

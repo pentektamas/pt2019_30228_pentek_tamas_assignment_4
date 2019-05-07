@@ -242,8 +242,7 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 
 	}
 
-	public void computePrice(Order o) {
-		// TODO Auto-generated method stub
+/*	public void computePrice(Order o) {
 
-	}
+	}*/
 }

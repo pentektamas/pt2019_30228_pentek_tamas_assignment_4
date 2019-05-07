@@ -14,5 +14,5 @@ public interface RestaurantProcessing {
 
 	public void generateBill(Order order);
 
-	public void computePrice(Order o);
+//	public void computePrice(Order o);
 }

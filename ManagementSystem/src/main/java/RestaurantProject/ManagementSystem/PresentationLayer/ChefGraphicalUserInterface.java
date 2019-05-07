@@ -1,16 +1,50 @@
 package RestaurantProject.ManagementSystem.PresentationLayer;
 
+import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.*;
 
-public class ChefGraphicalUserInterface extends JPanel{
+import RestaurantProject.ManagementSystem.BusinessLayer.CompositeProduct;
 
-	private JLabel select=new JLabel("Select an operation: ");
-	
+@SuppressWarnings("deprecation")
+public class ChefGraphicalUserInterface extends JPanel implements Observer {
+
+	private List<String> foods;
+	private JLabel list = new JLabel("List of foods is: ");
+	private JList foodList;
+	JPanel p = new JPanel();
+	private static int TEMP = 1;
+	private int index;
+
 	public ChefGraphicalUserInterface() {
-		JPanel p=new JPanel();
-		p.add(select);
+
+		foods = new ArrayList<String>();
+		foodList = new JList(foods.toArray());
+		JPanel p = new JPanel();
+		BorderLayout layout = new BorderLayout();
+		p.setLayout(layout);
+		p.add(list, BorderLayout.PAGE_START);
+		p.add(foodList, BorderLayout.CENTER);
 		this.add(p);
-	//	this.setSize(new Dimension(300,200));
+		// this.setSize(new Dimension(300,200));
 		this.setVisible(true);
+	}
+
+	public void update(Observable o, Object arg) {
+		if (arg instanceof CompositeProduct) {
+			//String products = ((CompositeProduct) arg).getBaseProducts();
+			this.index = this.TEMP++;
+			String element = this.index + ". " + ((CompositeProduct) arg).getName();// + products;
+			foods.add(element);
+			Collections.sort(foods);
+			System.out.println("Chef gets a compositeProduct!");
+			foodList.setListData(foods.toArray());
+			updateUI();
+		}
 	}
 }

@@ -1,0 +1,16 @@
+				BILL
+
+			Gordon Ramsay's Restaurant			
+			London, Main Street 10
+
+
+Menu		Quantity     Price
+
+salata		   1  		45
+khjmnfgb	   1  		12
+bngcmh		   1  		25
+
+
+				Number of table: 1
+
+				Total amount: 82 RON

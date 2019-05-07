@@ -1,0 +1,16 @@
+				BILL
+
+			Gordon Ramsay's Restaurant			
+			London, Main Street 10
+
+
+Menu		Quantity     Price
+
+khjmnfgb	   1  		12
+bngcmh		   1  		25
+KLM Menu	   1  		14
+
+
+				Number of table: 3
+
+				Total amount: 51 RON

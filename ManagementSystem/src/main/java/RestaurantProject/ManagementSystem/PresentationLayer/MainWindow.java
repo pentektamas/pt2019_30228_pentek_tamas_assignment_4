@@ -29,7 +29,9 @@ public class MainWindow extends JFrame {
 	private ChefGraphicalUserInterface chefPanel = new ChefGraphicalUserInterface();
 	RestaurantSerializator ser=new RestaurantSerializator();
 
+	@SuppressWarnings("deprecation")
 	public MainWindow() {
+		restaurant.addObserver(chefPanel);
 		final JPanel p = new JPanel();
 		final JPanel p1 = new JPanel();
 		final JPanel p2 = new JPanel();

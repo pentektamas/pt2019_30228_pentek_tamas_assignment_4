@@ -10,8 +10,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
-public class Restaurant {
+@SuppressWarnings("deprecation")
+public class Restaurant extends Observable {
 
 	private Map<Order, List<MenuItem>> orders;
 	private List<MenuItem> menus;
@@ -71,6 +73,13 @@ public class Restaurant {
 
 	public void addNewOrder(Order key, List<MenuItem> value) {
 		orders.put(key, value);
+		for (MenuItem m : value) {
+			if (m instanceof CompositeProduct) {
+				this.setChanged();
+				this.notifyObservers(new CompositeProduct(m.getName()));
+			}
+		System.out.println("ORDER ADDED");
+		}
 
 	}
 

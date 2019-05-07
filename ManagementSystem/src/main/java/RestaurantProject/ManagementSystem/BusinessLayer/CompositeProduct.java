@@ -21,12 +21,19 @@ public class CompositeProduct implements MenuItem {
 		return rez;
 	}
 
+	/*
+	 * public String getBaseProducts(){ String products="( "; for(MenuItem m:
+	 * this.menuItems) { products=products+m.getName()+" ,"; } String
+	 * list=products;//.substring(0, products.length()-1); list=list+");"; return
+	 * list; }
+	 */
+
 	public String getName() {
 		return this.name;
 	}
 
 	public int getPrice() {
-		this.price=this.computePrice();
+		this.price = this.computePrice();
 		return this.price;
 	}
 
@@ -39,11 +46,11 @@ public class CompositeProduct implements MenuItem {
 	}
 
 	public void setName(String text) {
-		this.name=text;
+		this.name = text;
 	}
 
 	public void setPrice(int price) {
-		this.price=price;
+		this.price = price;
 	}
 
 }
