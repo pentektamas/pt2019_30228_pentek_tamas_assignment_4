@@ -13,7 +13,7 @@ import RestaurantProject.ManagementSystem.BusinessLayer.Order;
 import RestaurantProject.ManagementSystem.BusinessLayer.Restaurant;
 import RestaurantProject.ManagementSystem.BusinessLayer.RestaurantProcessing;
 
-public class WaiterGraphicalUserInterface extends JPanel implements RestaurantProcessing {
+public class WaiterGraphicalUserInterface extends JPanel {
 
 	private JLabel select = new JLabel("Select an operation: ");
 	private JButton newOrder = new JButton("Add new order");
@@ -23,7 +23,7 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 	private JButton add = new JButton("Add");
 	private JButton finish = new JButton("Finish");
 	private JCheckBox computeBill = new JCheckBox("Compute Bill");
-	private Restaurant restaurant;// = new Restaurant();
+	private RestaurantProcessing restaurant;// = new Restaurant();
 	private JTable t;// = MainWindow.createTable(restaurant.getNames(), restaurant.getPrices());
 	private JScrollPane scrollPane = new JScrollPane(t);
 	private JLabel table = new JLabel("Select a table: ");
@@ -54,8 +54,8 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 	private JList ordersList;
 	private JPanel p15 = new JPanel();
 
-	public WaiterGraphicalUserInterface(Restaurant restaurant) {
-		this.restaurant = restaurant;
+	public WaiterGraphicalUserInterface(RestaurantProcessing restaurantprocess) {
+		this.restaurant = restaurantprocess;
 		t = MainWindow.createTable(restaurant.getNames(), restaurant.getPrices());
 //		orders2 = new JList(restaurant.getOrderIDs().toArray());
 		ordersList = new JList(restaurant.getOrderIDs().toArray());
@@ -224,25 +224,28 @@ public class WaiterGraphicalUserInterface extends JPanel implements RestaurantPr
 	 * }); }
 	 */
 
-	public void createNewMenu(MenuItem m) {
-	}
-
-	public void deleteMenuItem(MenuItem m) {
-	}
-
-	public void editMenuItem(int nrRow) {
-	}
+	/*
+	 * public void createNewMenu(MenuItem m) { }
+	 * 
+	 * public void deleteMenuItem(MenuItem m) { }
+	 * 
+	 * public void editMenuItem(int nrRow) { }
+	 */
 
 	public void createNewOrder(Order key, List<MenuItem> value) {
-		restaurant.addNewOrder(key, value);
+		// restaurant.addNewOrder(key, value);
+		restaurant.createNewOrder(key, value);
 	}
 
 	public void generateBill(Order order) {
-		restaurant.createBill(order);
+		// restaurant.createBill(order);
+		restaurant.generateBill(order);
 
 	}
 
-/*	public void computePrice(Order o) {
-
-	}*/
+	/*
+	 * public void computePrice(Order o) {
+	 * 
+	 * }
+	 */
 }

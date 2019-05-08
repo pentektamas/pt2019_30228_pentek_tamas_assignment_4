@@ -29,10 +29,10 @@ public class BaseProduct implements MenuItem {
 	}
 
 	public void setName(String text) {
-		this.name=text;
+		this.name = text;
 	}
 
 	public void setPrice(int price) {
-		this.price=price;
+		this.price = price;
 	}
 }

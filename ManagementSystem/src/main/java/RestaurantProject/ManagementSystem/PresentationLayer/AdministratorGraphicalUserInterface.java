@@ -1,33 +1,28 @@
 package RestaurantProject.ManagementSystem.PresentationLayer;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.*;
 import javax.swing.table.TableModel;
 
 import RestaurantProject.ManagementSystem.BusinessLayer.BaseProduct;
 import RestaurantProject.ManagementSystem.BusinessLayer.CompositeProduct;
 import RestaurantProject.ManagementSystem.BusinessLayer.MenuItem;
-import RestaurantProject.ManagementSystem.BusinessLayer.Order;
-import RestaurantProject.ManagementSystem.BusinessLayer.Restaurant;
 import RestaurantProject.ManagementSystem.BusinessLayer.RestaurantProcessing;
 
-public class AdministratorGraphicalUserInterface extends JPanel implements RestaurantProcessing {
+public class AdministratorGraphicalUserInterface extends JPanel {
 
 	private JLabel select = new JLabel("Select an operation: ");
 	private JButton newMenu = new JButton("Add new menu");
 	private JButton editMenu = new JButton("Edit menu");
 	private JButton deleteMenu = new JButton("Delete menu");
 	private JButton viewAll = new JButton("View all menus");
-	private Restaurant restaurant;// = new Restaurant();
+	private RestaurantProcessing restaurant;// = new Restaurant();
 
 	private JLabel components = new JLabel("The number of the components of the menu: ");
 	private JTextField nrComponents = new JTextField();
@@ -38,7 +33,7 @@ public class AdministratorGraphicalUserInterface extends JPanel implements Resta
 	private List<JTextField> texts = new ArrayList<JTextField>();
 	private List<JLabel> labels2 = new ArrayList<JLabel>();
 	private List<JTextField> texts2 = new ArrayList<JTextField>();
-	JTextField text = new JTextField();
+	private JTextField text = new JTextField();
 
 	private JLabel selectitem = new JLabel("Select an item: ");
 	private JList menus;// = new JList(restaurant.getNames().toArray());
@@ -59,9 +54,10 @@ public class AdministratorGraphicalUserInterface extends JPanel implements Resta
 	private JButton update = new JButton("Update");
 
 	private JPanel view = new JPanel();
+	private JPanel p1 = new JPanel();
 
-	public AdministratorGraphicalUserInterface(Restaurant restaurant) {
-		this.restaurant = restaurant;
+	public AdministratorGraphicalUserInterface(RestaurantProcessing restaurantprocess) {
+		this.restaurant = restaurantprocess;
 		menus = new JList(restaurant.getNames().toArray());
 		t = MainWindow.createTable(restaurant.getNames(), restaurant.getPrices());
 		t2 = MainWindow.createTable(restaurant.getNames(), restaurant.getPrices());
@@ -73,7 +69,6 @@ public class AdministratorGraphicalUserInterface extends JPanel implements Resta
 		p.add(deleteMenu);
 		p.add(viewAll);
 
-		JPanel p1 = new JPanel();
 		BorderLayout layout = new BorderLayout();
 		GridLayout layout2 = new GridLayout(0, 1);
 		nrComponents.setPreferredSize(new Dimension(50, 25));
@@ -114,6 +109,13 @@ public class AdministratorGraphicalUserInterface extends JPanel implements Resta
 		newMenu.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				//add.removeAll();
+				// addOK2Listener();
+				// addADDButtonListener();
+				//add.add(p1, BorderLayout.PAGE_START);
+				add.updateUI();
+				updateUI();
+
 				add(add, BorderLayout.CENTER);
 				delete.setVisible(false);
 				add.setVisible(true);
@@ -209,12 +211,14 @@ public class AdministratorGraphicalUserInterface extends JPanel implements Resta
 		});
 	}
 
-	public void addOK2Listener() {
+/*	public void addOK2Listener() {
 		ok2.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				JPanel p3 = new JPanel();
 				JPanel p4 = new JPanel();
+				add.remove(p3);
+				add.remove(p4);
 				GridLayout layout2 = new GridLayout(0, 1);
 				p3.setLayout(layout2);
 				int nr = Integer.parseInt(nrComponents.getText());
@@ -226,7 +230,9 @@ public class AdministratorGraphicalUserInterface extends JPanel implements Resta
 					temp.add(text);
 					p4.add(temp, BorderLayout.PAGE_START);
 				}
+				List<JPanel> panels=new ArrayList<JPanel>();
 				for (int i = 0; i < nr; i++) {
+					System.out.println("SFAFASGG " + nr);
 					JLabel l = new JLabel("Component ( " + (i + 1) + " ) : ");
 					JTextField t = new JTextField();
 					JLabel l2 = new JLabel("Price ( " + (i + 1) + " ) : ");
@@ -237,22 +243,62 @@ public class AdministratorGraphicalUserInterface extends JPanel implements Resta
 					texts.add(t);
 					labels2.add(l2);
 					texts2.add(t2);
-					JPanel p2 = new JPanel();
+					/*JPanel p2 = new JPanel();
 					p2.add(labels.get(i));
 					p2.add(texts.get(i));
 					p2.add(labels2.get(i));
 					p2.add(texts2.get(i));
 					p3.add(p2);
+					JPanel p2=new JPanel();
+					p2.add(labels.get(i));
+					p2.add(texts.get(i));
+					p2.add(labels2.get(i));
+					p2.add(texts2.get(i));
+					panels.add(p2);
+					p3.add(panels.get(i));
 				}
 				add.add(p3, BorderLayout.CENTER);
 				p4.add(addButton);
 				add.add(p4, BorderLayout.PAGE_END);
-				updateUI();
+				p3.updateUI();
+				p4.updateUI();
 				add.updateUI();
+				//updateUI();
+			}
+		});
+	}*/
+
+	
+	public void addOK2Listener() {
+		ok2.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				JPanel p3 = new JPanel();
+				JPanel p4 = new JPanel();
+				add.remove(p3);
+				add.remove(p4);
+				GridLayout layout2 = new GridLayout(0, 1);
+				p3.setLayout(layout2);
+				int nr = Integer.parseInt(nrComponents.getText());
+				if (nr > 1) {
+					JLabel lab = new JLabel("Menu's name: ");
+					text.setPreferredSize(new Dimension(150, 25));
+					JPanel temp = new JPanel();
+					temp.add(lab);
+					temp.add(text);
+					p4.add(temp, BorderLayout.PAGE_START);
+				}
+				add.add(p3, BorderLayout.CENTER);
+				p4.add(addButton);
+				add.add(p4, BorderLayout.PAGE_END);
+				p3.updateUI();
+				p4.updateUI();
+				add.updateUI();
+				//updateUI();
 			}
 		});
 	}
-
+	
 	public void addADDButtonListener() {
 		addButton.addActionListener(new ActionListener() {
 
@@ -328,22 +374,28 @@ public class AdministratorGraphicalUserInterface extends JPanel implements Resta
 	 */
 
 	public void createNewMenu(MenuItem m) {
-		restaurant.addNewMenu(m);
+		// restaurant.addNewMenu(m);
+		restaurant.createNewMenu(m);
 		for (MenuItem men : restaurant.getMenus()) {
 			System.out.println(men.getName());
 		}
 	}
 
 	public void deleteMenuItem(MenuItem m) {
-		restaurant.deleteMenu(m);
+		// restaurant.deleteMenu(m);
+		restaurant.deleteMenuItem(m);
 		for (MenuItem men : restaurant.getMenus()) {
 			System.out.println(men.getName());
 		}
 	}
 
 	public void editMenuItem(int nrRow) {
-		restaurant.getMenus().get(nrRow).setName(menuName.getText());
-		restaurant.getMenus().get(nrRow).setPrice(Integer.parseInt(priceName.getText()));
+		/*
+		 * restaurant.getMenus().get(nrRow).setName(menuName.getText());
+		 * restaurant.getMenus().get(nrRow).setPrice(Integer.parseInt(priceName.getText(
+		 * )));
+		 */
+		restaurant.editMenuItem(nrRow, menuName.getText(), Integer.parseInt(priceName.getText()));
 		for (MenuItem men : restaurant.getMenus()) {
 			System.out.println("NAMES: " + men.getName());
 		}
@@ -352,12 +404,11 @@ public class AdministratorGraphicalUserInterface extends JPanel implements Resta
 		}
 	}
 
-	public void createNewOrder(Order key, List<MenuItem> value) {
-	}
-
-	public void generateBill(Order order) {
-	}
-
-	public void computePrice(Order o) {
-	}
+	/*
+	 * public void createNewOrder(Order key, List<MenuItem> value) { }
+	 * 
+	 * public void generateBill(Order order) { }
+	 * 
+	 * public void computePrice(Order o) { }
+	 */
 }
