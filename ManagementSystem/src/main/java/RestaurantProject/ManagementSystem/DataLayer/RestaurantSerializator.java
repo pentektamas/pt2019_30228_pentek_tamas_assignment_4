@@ -27,7 +27,6 @@ public class RestaurantSerializator {
 
 			outputObject.close();
 			file.close();
-			System.out.println("Serialization is done!");
 
 		} catch (IOException e) {
 			System.out.println("InputOutput exception - serialization");
@@ -51,9 +50,7 @@ public class RestaurantSerializator {
 			}
 			inputObject.close();
 			file.close();
-			System.out.println("GSHHEHSF-DESERIALIZATION");
 		} catch (EOFException e) {
-			System.out.println("DESerialization is done!");
 		} catch (IOException e) {
 			System.out.println("InputOutput exception - deserialization");
 			e.printStackTrace();

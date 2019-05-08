@@ -22,11 +22,9 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 	private JButton editMenu = new JButton("Edit menu");
 	private JButton deleteMenu = new JButton("Delete menu");
 	private JButton viewAll = new JButton("View all menus");
-	private RestaurantProcessing restaurant;// = new Restaurant();
+	private RestaurantProcessing restaurant;
 
 	private JLabel components = new JLabel("The number of the components of the menu: ");
-	private JTextField nrComponents = new JTextField();
-	private JButton ok2 = new JButton("OK");
 	private JPanel add = new JPanel();
 	private JButton addButton = new JButton("Add");
 	private List<JLabel> labels = new ArrayList<JLabel>();
@@ -34,17 +32,18 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 	private List<JLabel> labels2 = new ArrayList<JLabel>();
 	private List<JTextField> texts2 = new ArrayList<JTextField>();
 	private JTextField text = new JTextField();
+	private JButton base = new JButton("Base Product");
+	private JButton composite = new JButton("Composite Product");
 
 	private JLabel selectitem = new JLabel("Select an item: ");
-	private JList menus;// = new JList(restaurant.getNames().toArray());
-	private JTable t;// = MainWindow.createTable(restaurant.getNames(), restaurant.getPrices());
-	private JTable t2;// = MainWindow.createTable(restaurant.getNames(), restaurant.getPrices());
+	private JList menus;
+	private JTable t;
+	private JTable t2;
 	private JButton ok = new JButton("OK");
 	private JPanel delete = new JPanel();
 
 	private JLabel selectitemEdit = new JLabel("Select an item: ");
 	private JPanel edit = new JPanel();
-	// private Object[][] objects;
 	private JScrollPane scrollPane = new JScrollPane(t);
 	private JScrollPane scrollPane2 = new JScrollPane(t2);
 	private JLabel menu = new JLabel("Menu: ");
@@ -55,6 +54,14 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 
 	private JPanel view = new JPanel();
 	private JPanel p1 = new JPanel();
+	private JTable table33 = new JTable();
+	private JScrollPane scroll33 = new JScrollPane();
+	private JPanel p11 = new JPanel();
+
+	private JLabel l = new JLabel("Component : ");
+	private JTextField t1 = new JTextField();
+	private JLabel l2 = new JLabel("Price : ");
+	private JTextField t3 = new JTextField();
 
 	public AdministratorGraphicalUserInterface(RestaurantProcessing restaurantprocess) {
 		this.restaurant = restaurantprocess;
@@ -71,7 +78,6 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 
 		BorderLayout layout = new BorderLayout();
 		GridLayout layout2 = new GridLayout(0, 1);
-		nrComponents.setPreferredSize(new Dimension(50, 25));
 		menuName.setPreferredSize(new Dimension(50, 25));
 		priceName.setPreferredSize(new Dimension(50, 25));
 		JPanel p10 = new JPanel();
@@ -81,9 +87,8 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 		p10.add(price);
 		p10.add(priceName);
 		p10.add(update);
-		p1.add(components);
-		p1.add(nrComponents);
-		p1.add(ok2);
+		p1.add(base);
+		p1.add(composite);
 		add.setLayout(layout);
 		add.add(p1, BorderLayout.PAGE_START);
 
@@ -100,22 +105,16 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 		this.addDeleteMenuListener();
 		this.addViewAllListener();
 		this.addOKListener();
-		this.addOK2Listener();
 		this.addADDButtonListener();
 		this.addUpdateListener();
+		this.addBaseButtonListener();
+		this.addCompositeButtonListener();
 	}
 
 	public void addNewMenuListener() {
 		newMenu.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				//add.removeAll();
-				// addOK2Listener();
-				// addADDButtonListener();
-				//add.add(p1, BorderLayout.PAGE_START);
-				add.updateUI();
-				updateUI();
-
 				add(add, BorderLayout.CENTER);
 				delete.setVisible(false);
 				add.setVisible(true);
@@ -137,7 +136,6 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 				scrollPane = new JScrollPane(t);
 				scrollPane.setPreferredSize(new Dimension(275, 250));
 				edit.add(scrollPane);
-				// view.add(scrollPane);
 				edit.updateUI();
 				add(edit, BorderLayout.CENTER);
 				delete.setVisible(false);
@@ -160,13 +158,6 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 				edit.setVisible(false);
 				view.setVisible(false);
 				updateUI();
-
-				for (String s : restaurant.getNames()) {
-					System.out.println("NAME: " + s);
-				}
-				for (Integer m : restaurant.getPrices()) {
-					System.out.println("PRICE: " + m);
-				}
 			}
 		});
 	}
@@ -211,94 +202,82 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 		});
 	}
 
-/*	public void addOK2Listener() {
-		ok2.addActionListener(new ActionListener() {
+	public void addBaseButtonListener() {
+		base.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				JPanel p3 = new JPanel();
+				p11.removeAll();
 				JPanel p4 = new JPanel();
-				add.remove(p3);
-				add.remove(p4);
-				GridLayout layout2 = new GridLayout(0, 1);
-				p3.setLayout(layout2);
-				int nr = Integer.parseInt(nrComponents.getText());
-				if (nr > 1) {
-					JLabel lab = new JLabel("Menu's name: ");
-					text.setPreferredSize(new Dimension(150, 25));
-					JPanel temp = new JPanel();
-					temp.add(lab);
-					temp.add(text);
-					p4.add(temp, BorderLayout.PAGE_START);
-				}
-				List<JPanel> panels=new ArrayList<JPanel>();
-				for (int i = 0; i < nr; i++) {
-					System.out.println("SFAFASGG " + nr);
-					JLabel l = new JLabel("Component ( " + (i + 1) + " ) : ");
-					JTextField t = new JTextField();
-					JLabel l2 = new JLabel("Price ( " + (i + 1) + " ) : ");
-					JTextField t2 = new JTextField();
-					t.setPreferredSize(new Dimension(150, 25));
-					t2.setPreferredSize(new Dimension(50, 25));
-					labels.add(l);
-					texts.add(t);
-					labels2.add(l2);
-					texts2.add(t2);
-					/*JPanel p2 = new JPanel();
-					p2.add(labels.get(i));
-					p2.add(texts.get(i));
-					p2.add(labels2.get(i));
-					p2.add(texts2.get(i));
-					p3.add(p2);
-					JPanel p2=new JPanel();
-					p2.add(labels.get(i));
-					p2.add(texts.get(i));
-					p2.add(labels2.get(i));
-					p2.add(texts2.get(i));
-					panels.add(p2);
-					p3.add(panels.get(i));
-				}
-				add.add(p3, BorderLayout.CENTER);
+				l = new JLabel("Component : ");
+				t1 = new JTextField();
+				l2 = new JLabel("Price : ");
+				t3 = new JTextField();
+				t1.setPreferredSize(new Dimension(150, 25));
+				t3.setPreferredSize(new Dimension(50, 25));
+				texts.add(t1);
+				texts2.add(t3);
+				p11.removeAll();
+				p11.add(l);
+				p11.add(t1);
+				p11.add(l2);
+				p11.add(t3);
+				p11.setVisible(true);
+				scroll33.setVisible(false);
+				add.removeAll();
+				add.add(p1, BorderLayout.PAGE_START);
+				add.add(p11, BorderLayout.CENTER);
 				p4.add(addButton);
 				add.add(p4, BorderLayout.PAGE_END);
-				p3.updateUI();
-				p4.updateUI();
 				add.updateUI();
-				//updateUI();
-			}
-		});
-	}*/
-
-	
-	public void addOK2Listener() {
-		ok2.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				JPanel p3 = new JPanel();
-				JPanel p4 = new JPanel();
-				add.remove(p3);
-				add.remove(p4);
-				GridLayout layout2 = new GridLayout(0, 1);
-				p3.setLayout(layout2);
-				int nr = Integer.parseInt(nrComponents.getText());
-				if (nr > 1) {
-					JLabel lab = new JLabel("Menu's name: ");
-					text.setPreferredSize(new Dimension(150, 25));
-					JPanel temp = new JPanel();
-					temp.add(lab);
-					temp.add(text);
-					p4.add(temp, BorderLayout.PAGE_START);
-				}
-				add.add(p3, BorderLayout.CENTER);
-				p4.add(addButton);
-				add.add(p4, BorderLayout.PAGE_END);
-				p3.updateUI();
-				p4.updateUI();
-				add.updateUI();
-				//updateUI();
+				updateUI();
 			}
 		});
 	}
-	
+
+	public void addCompositeButtonListener() {
+		composite.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				p11.setVisible(false);
+				JPanel p4 = new JPanel();
+				JLabel lab = new JLabel("Menu's name: ");
+				text = new JTextField();
+				text.setPreferredSize(new Dimension(150, 25));
+				JPanel temp = new JPanel();
+				temp.add(lab);
+				temp.add(text);
+				p4.add(temp, BorderLayout.PAGE_START);
+				scroll33.removeAll();
+				List<String> names = new ArrayList<String>();
+				List<Integer> prices = new ArrayList<Integer>();
+				names.add(" ");
+				names.add(" ");
+				names.add(" ");
+				names.add(" ");
+				names.add(" ");
+				names.add(" ");
+				prices.add(0);
+				prices.add(0);
+				prices.add(0);
+				prices.add(0);
+				prices.add(0);
+				prices.add(0);
+				p4.add(addButton);
+				table33 = MainWindow.createTable(names, prices);
+				scroll33 = new JScrollPane(table33);
+				scroll33.setPreferredSize(new Dimension(200, 200));
+				JPanel table = new JPanel();
+				table.add(scroll33);
+				add.removeAll();
+				add.add(p1, BorderLayout.PAGE_START);
+				add.add(table, BorderLayout.CENTER);
+				add.add(p4, BorderLayout.PAGE_END);
+				add.updateUI();
+				updateUI();
+			}
+		});
+	}
+
 	public void addADDButtonListener() {
 		addButton.addActionListener(new ActionListener() {
 
@@ -306,22 +285,30 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 				if (texts.size() == 1) {
 					MenuItem m = new BaseProduct(texts.get(0).getText(), Integer.parseInt(texts2.get(0).getText()));
 					createNewMenu(m);
-
-					System.out.println(m.getName() + " " + m.getPrice());
+					texts.clear();
+					texts2.clear();
+					add.updateUI();
 				} else {
 					MenuItem m1 = new CompositeProduct(text.getText());
-					for (int i = 0; i < texts.size(); i++) {
-						m1.add(new BaseProduct(texts.get(i).getText(), Integer.parseInt(texts2.get(i).getText())));
+					TableModel model = table33.getModel();
+					List<String> names = new ArrayList<String>();
+					List<Integer> prices = new ArrayList<Integer>();
+					for (int i = 0; i < 6; i++) {
+						if (model.getValueAt(i, 0).equals(" ") || model.getValueAt(i, 1) == Integer.valueOf(0))
+							break;
+						names.add((String) model.getValueAt(i, 0));
+						prices.add(Integer.parseInt((String) model.getValueAt(i, 1)));
+					}
+					for (int i = 0; i < names.size(); i++) {
+						m1.add(new BaseProduct(names.get(i), prices.get(i)));
 					}
 					createNewMenu(m1);
-					System.out.println(m1.getName() + "  " + m1.getPrice());
 				}
 			}
 		});
 	}
 
 	public void addTableListener() {
-		System.out.println("hERE I AM");
 		t.addMouseListener(new MouseListener() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -354,61 +341,19 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 				model.setValueAt(menuName.getText(), selectedRow, 0);
 				model.setValueAt(Integer.parseInt(priceName.getText()), selectedRow, 1);
 				editMenuItem(selectedRow);
-				// restaurant.getMenus().get(selectedRow).setName(menuName.getText());
-				// restaurant.getMenus().get(selectedRow).setPrice(Integer.parseInt(priceName.getText()));
-				/*
-				 * for (String s : restaurant.getNames()) { System.out.println("NAME: " + s); }
-				 * for (Integer m : restaurant.getPrices()) { System.out.println("PRICE: " + m);
-				 * }
-				 */
 			}
 		});
 	}
 
-	/*
-	 * public JTable createTable(List<String> names, List<Integer> prices) {
-	 * Object[][] objects; Object[] columnNames = { "Menus", "Prices" }; objects =
-	 * new Object[names.size()][2]; for (int i = 0; i < names.size(); i++) {
-	 * objects[i][0] = names.get(i); objects[i][1] = prices.get(i); } JTable table =
-	 * new JTable(objects, columnNames); return table; }
-	 */
-
 	public void createNewMenu(MenuItem m) {
-		// restaurant.addNewMenu(m);
 		restaurant.createNewMenu(m);
-		for (MenuItem men : restaurant.getMenus()) {
-			System.out.println(men.getName());
-		}
 	}
 
 	public void deleteMenuItem(MenuItem m) {
-		// restaurant.deleteMenu(m);
 		restaurant.deleteMenuItem(m);
-		for (MenuItem men : restaurant.getMenus()) {
-			System.out.println(men.getName());
-		}
 	}
 
 	public void editMenuItem(int nrRow) {
-		/*
-		 * restaurant.getMenus().get(nrRow).setName(menuName.getText());
-		 * restaurant.getMenus().get(nrRow).setPrice(Integer.parseInt(priceName.getText(
-		 * )));
-		 */
 		restaurant.editMenuItem(nrRow, menuName.getText(), Integer.parseInt(priceName.getText()));
-		for (MenuItem men : restaurant.getMenus()) {
-			System.out.println("NAMES: " + men.getName());
-		}
-		for (MenuItem men : restaurant.getMenus()) {
-			System.out.println("PRICE: " + men.getPrice());
-		}
 	}
-
-	/*
-	 * public void createNewOrder(Order key, List<MenuItem> value) { }
-	 * 
-	 * public void generateBill(Order order) { }
-	 * 
-	 * public void computePrice(Order o) { }
-	 */
 }

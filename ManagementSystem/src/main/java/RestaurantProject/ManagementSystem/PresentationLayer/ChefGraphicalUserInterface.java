@@ -31,18 +31,15 @@ public class ChefGraphicalUserInterface extends JPanel implements Observer {
 		p.add(list, BorderLayout.PAGE_START);
 		p.add(foodList, BorderLayout.CENTER);
 		this.add(p);
-		// this.setSize(new Dimension(300,200));
 		this.setVisible(true);
 	}
 
 	public void update(Observable o, Object arg) {
 		if (arg instanceof CompositeProduct) {
-			//String products = ((CompositeProduct) arg).getBaseProducts();
 			this.index = this.TEMP++;
 			String element = this.index + ". " + ((CompositeProduct) arg).getName();// + products;
 			foods.add(element);
 			Collections.sort(foods);
-			System.out.println("Chef gets a compositeProduct!");
 			foodList.setListData(foods.toArray());
 			updateUI();
 		}

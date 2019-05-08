@@ -6,12 +6,12 @@ import java.util.Objects;
 public class Order {
 
 	private int orderID;
-	private static int temp=100;
+	private static int temp = 100;
 	private String date;
 	private int table;
 
 	public Order() {
-		orderID=temp++;
+		orderID = temp++;
 		date = LocalDate.now().toString();
 	}
 

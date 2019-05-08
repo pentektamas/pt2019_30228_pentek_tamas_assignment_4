@@ -3,7 +3,6 @@ package RestaurantProject.ManagementSystem.PresentationLayer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -23,11 +22,12 @@ public class MainWindow extends JFrame {
 	private JButton waiter = new JButton("Waiter\\Waitress");
 	private JButton chef = new JButton("Chef");
 	private JButton back = new JButton("Back");
-	private Restaurant restaurant=new Restaurant();
+	private Restaurant restaurant = new Restaurant();
 	private WaiterGraphicalUserInterface waiterPanel = new WaiterGraphicalUserInterface(restaurant);
-	private AdministratorGraphicalUserInterface administratorPanel = new AdministratorGraphicalUserInterface(restaurant);
+	private AdministratorGraphicalUserInterface administratorPanel = new AdministratorGraphicalUserInterface(
+			restaurant);
 	private ChefGraphicalUserInterface chefPanel = new ChefGraphicalUserInterface();
-	RestaurantSerializator ser=new RestaurantSerializator();
+	RestaurantSerializator ser = new RestaurantSerializator();
 
 	@SuppressWarnings("deprecation")
 	public MainWindow() {
@@ -58,7 +58,6 @@ public class MainWindow extends JFrame {
 				p.removeAll();
 				p.add(p2, BorderLayout.PAGE_END);
 				p.add(administratorPanel, BorderLayout.PAGE_START);
-			//	administratorPanel.setVisible(false);
 				p.updateUI();
 			}
 		});
@@ -91,11 +90,11 @@ public class MainWindow extends JFrame {
 				p.updateUI();
 			}
 		});
-		
+
 		this.addWindowListener(new WindowListener() {
 
 			public void windowOpened(WindowEvent e) {
-				List<MenuItem> menus=ser.deserialization();
+				List<MenuItem> menus = ser.deserialization();
 				restaurant.setMenus(menus);
 			}
 
@@ -116,10 +115,10 @@ public class MainWindow extends JFrame {
 			}
 
 			public void windowDeactivated(WindowEvent e) {
-			}		
+			}
 		});
 	}
-	
+
 	public static JTable createTable(List<String> names, List<Integer> prices) {
 		Object[][] objects;
 		Object[] columnNames = { "Menus", "Prices" };
