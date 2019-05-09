@@ -25,14 +25,6 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 	public Restaurant() {
 		menus = new ArrayList<MenuItem>();
 		orders = new HashMap<Order, List<MenuItem>>();
-		MenuItem m = new BaseProduct("Cotlet", 4);
-		MenuItem m2 = new BaseProduct("Cartofi", 3);
-		MenuItem m3 = new BaseProduct("Salata", 2);
-		MenuItem m4 = new BaseProduct("Tiramisu", 5);
-		menus.add(m);
-		menus.add(m2);
-		menus.add(m3);
-		menus.add(m4);
 	}
 
 	/**
@@ -121,7 +113,7 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 	 * 
 	 * @param menus este meniul care va fi meniul restaurantului
 	 * @pre menus!=null
-	 * @post getSizeMenu()>0
+	 * @post getSizeMenu(){@literal >}0
 	 */
 	public void setMenus(List<MenuItem> menus) {
 		assert menus != null;
@@ -136,7 +128,7 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 	 * 
 	 * @return lista cu numele fiecarui meniu
 	 * @pre names.size()==0
-	 * @post names.size()>0 && names!=null
+	 * @post names.size(){@literal =>}0 {@literal &&} names!=null
 	 */
 	public List<String> getNames() {
 		List<String> names = new ArrayList<String>();
@@ -145,7 +137,7 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 		for (MenuItem m : menus) {
 			names.add(m.getName());
 		}
-		assert names.size() > 0 && names != null;
+		assert names.size() >= 0 && names != null;
 		assert isWellFormed();
 		return names;
 	}
@@ -155,7 +147,7 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 	 * 
 	 * @return lista cu numele fiecarui meniu
 	 * @pre prices.size()==0
-	 * @post getSize()>0 && prices!=null
+	 * @post getSize(){@literal >=}0 {@literal &&} prices!=null
 	 */
 	public List<Integer> getPrices() {
 		List<Integer> prices = new ArrayList<Integer>();
@@ -164,7 +156,7 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 		for (MenuItem m : menus) {
 			prices.add(m.getPrice());
 		}
-		assert prices.size() > 0 && prices != null;
+		assert prices.size() >= 0 && prices != null;
 		assert isWellFormed();
 		return prices;
 	}
@@ -174,18 +166,17 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 	 * 
 	 * @return o lista cu ID de comenzi
 	 * @pre keys.size()==0
-	 * @post keys.size() < 0 && keys != null
+	 * @post keys.size() {@literal >=} 0 {@literal &&} keys != null
 	 */
 	public List<String> getOrderIDs() {
 		List<String> keys = new ArrayList<String>();
 		assert keys.size() == 0;
 		assert isWellFormed();
 		for (Order key : this.orders.keySet()) {
-			System.out.println("OrderID: " + key.getOrderID());
 			keys.add(key.getOrderID() + "   " + "( Table " + key.getTable() + " )   ");
 			Collections.sort(keys);
 		}
-		assert keys.size() < 0 && keys != null;
+		assert keys.size() >= 0 && keys != null;
 		assert isWellFormed();
 		return keys;
 	}
@@ -211,7 +202,7 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 	 * Sterge un meniu din lista de meniu a restaurantului
 	 * 
 	 * @param m este meniul pe care vrem sa-l stergem
-	 * @pre getSize()>0 && contains(m)==true
+	 * @pre getSize(){@literal >}0 {@literal &&} contains(m)==true
 	 * @post getSize()== getSize()@pre-1
 	 * @post contains(m)==false
 	 */
@@ -232,8 +223,9 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 	 * @param nrRow este indexul meniului pe care vrem sa-l actualizam
 	 * @param name  este numele meniului
 	 * @param price este pretul meniului
-	 * @pre nrRow>=0 && name!=null && price>=1
-	 * @post (getMenus().get(nrRow).getName().equals(name) &&
+	 * @pre nrRow{@literal >=}0 {@literal &&} name!=null {@literal &&} price
+	 *      {@literal >=}1
+	 * @post (getMenus().get(nrRow).getName().equals(name) {@literal &&}
 	 *       (getMenus().get(nrRow).getPrice()==price)
 	 */
 	public void editMenuItem(int nrRow, String name, int price) {
@@ -251,7 +243,8 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 	 * @param key   este pozitia la care se adauga comanda in HashMap
 	 * @param value este continutul comenzii
 	 * 
-	 * @pre key!=null && value!=null && this.getSizeOrder()>=0
+	 * @pre key!=null {@literal &&} value!=null {@literal &&} this.getSizeOrder()
+	 *      {@literal >=}0
 	 * @post getSizeOrder()==getSizeOrder()@pre+1
 	 * @post contains(key, value)==true
 	 */
@@ -265,7 +258,6 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 				this.setChanged();
 				this.notifyObservers(new CompositeProduct(m.getName()));
 			}
-			System.out.println("ORDER ADDED");
 		}
 		int sizePost = this.getSizeOrder();
 		assert sizePost == sizePre + 1;
@@ -277,11 +269,12 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 	 * Genereaza o factura in format .txt dupa o comanda
 	 * 
 	 * @param order este comanda pe baza careia se genereaza factura
+	 * @return true daca factura a fost corecta, altfel false
 	 * @pre order!=null
-	 * @post totalAmount>0
+	 * @post totalAmount {@literal >}0
 	 * @post writer!=null
 	 */
-	public void generateBill(Order order) {
+	public boolean generateBill(Order order) {
 		assert order != null;
 		assert isWellFormed();
 		Writer writer = null;
@@ -312,6 +305,13 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 			writer.write("\n\n");
 			writer.write("\t\t\t\t");
 			writer.write("Total amount: " + totalAmount + " RON");
+			if (totalAmount < 1) {
+				/*
+				 * JOptionPane.showMessageDialog(null, "Error! Invalid bill!", "Error ORDER",
+				 * JOptionPane.ERROR_MESSAGE);
+				 */
+				return false;
+			}
 		} catch (IOException ex) {
 			System.out.println("IO EXCEPTION - OPEN!");
 		} finally {
@@ -320,6 +320,7 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 		assert totalAmount > 0;
 		assert writer != null;
 		assert isWellFormed();
+		return true;
 	}
 
 	protected boolean isWellFormed() {

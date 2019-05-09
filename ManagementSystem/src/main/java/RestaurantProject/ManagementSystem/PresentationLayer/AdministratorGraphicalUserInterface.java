@@ -134,7 +134,7 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 				t = MainWindow.createTable(restaurant.getNames(), restaurant.getPrices());
 				addTableListener();
 				scrollPane = new JScrollPane(t);
-				scrollPane.setPreferredSize(new Dimension(275, 250));
+				scrollPane.setPreferredSize(new Dimension(350, 250));
 				edit.add(scrollPane);
 				edit.updateUI();
 				add(edit, BorderLayout.CENTER);
@@ -174,7 +174,7 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 				scrollPane2.removeAll();
 				t2 = MainWindow.createTable(restaurant.getNames(), restaurant.getPrices());
 				scrollPane2 = new JScrollPane(t2);
-				scrollPane2.setPreferredSize(new Dimension(275, 250));
+				scrollPane2.setPreferredSize(new Dimension(350, 250));
 				view.add(scrollPane2);
 				view.updateUI();
 				add(view, BorderLayout.CENTER);
@@ -283,17 +283,49 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 				if (texts.size() == 1) {
+					System.out.println(texts.get(0).getText() + " SDSD");
+					if (texts.get(0).getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "Component's name is INVALID!", "ERROR New Menu!",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					if (texts2.get(0).getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "Component's price is INVALID!", "ERROR New Menu!",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+
 					MenuItem m = new BaseProduct(texts.get(0).getText(), Integer.parseInt(texts2.get(0).getText()));
+
+					for (MenuItem menu : restaurant.getMenus()) {
+						if (menu.getName().equals(m.getName()) && menu.getPrice() == m.getPrice()) {
+							JOptionPane.showMessageDialog(null, "Duplicate Menu Item!", "ERROR New Menu!",
+									JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+					JOptionPane.showMessageDialog(null, "New base product added successfully!", "New Menu!",
+							JOptionPane.INFORMATION_MESSAGE);
 					createNewMenu(m);
 					texts.clear();
 					texts2.clear();
 					add.updateUI();
 				} else {
+					if (text.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "Menu's name is INVALID!", "ERROR New Menu!",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					}
 					MenuItem m1 = new CompositeProduct(text.getText());
 					TableModel model = table33.getModel();
 					List<String> names = new ArrayList<String>();
 					List<Integer> prices = new ArrayList<Integer>();
 					for (int i = 0; i < 6; i++) {
+						if (model.getValueAt(0, 0).equals(" ") || model.getValueAt(0, 1) == Integer.valueOf(0)) {
+							JOptionPane.showMessageDialog(null, "Menu's components are INVALID!", "ERROR New Menu!",
+									JOptionPane.ERROR_MESSAGE);
+							return;
+						}
 						if (model.getValueAt(i, 0).equals(" ") || model.getValueAt(i, 1) == Integer.valueOf(0))
 							break;
 						names.add((String) model.getValueAt(i, 0));
@@ -302,7 +334,18 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 					for (int i = 0; i < names.size(); i++) {
 						m1.add(new BaseProduct(names.get(i), prices.get(i)));
 					}
+
+					for (MenuItem menu : restaurant.getMenus()) {
+						if (menu.getName().equals(m1.getName()) && menu.getPrice() == m1.getPrice()) {
+							JOptionPane.showMessageDialog(null, "Duplicate Menu Item!", "ERROR New Menu!",
+									JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+
 					createNewMenu(m1);
+					JOptionPane.showMessageDialog(null, "New menu added successfully!", "New Menu!",
+							JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
@@ -338,6 +381,17 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int selectedRow = t.getSelectedRow();
 				TableModel model = t.getModel();
+				if (menuName.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Menu's name is INVALID!", "Edit Menu!",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (priceName.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Menu's price is INVALID!", "Edit Menu!",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
 				model.setValueAt(menuName.getText(), selectedRow, 0);
 				model.setValueAt(Integer.parseInt(priceName.getText()), selectedRow, 1);
 				editMenuItem(selectedRow);

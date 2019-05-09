@@ -1,7 +1,14 @@
 package RestaurantProject.ManagementSystem.BusinessLayer;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import RestaurantProject.ManagementSystem.DataLayer.FileWriter;
 
 public interface RestaurantProcessing {
 
@@ -67,7 +74,7 @@ public interface RestaurantProcessing {
 	 * 
 	 * @param menus este meniul care va fi meniul restaurantului
 	 * @pre menus!=null
-	 * @post getSizeMenu()>0
+	 * @post getSizeMenu(){@literal >}0
 	 */
 	public void setMenus(List<MenuItem> menus);
 
@@ -76,7 +83,7 @@ public interface RestaurantProcessing {
 	 * 
 	 * @return lista cu numele fiecarui meniu
 	 * @pre names.size()==0
-	 * @post names.size()>0 && names!=null
+	 * @post names.size(){@literal =>}0 {@literal &&} names!=null
 	 */
 	public List<String> getNames();
 
@@ -85,7 +92,7 @@ public interface RestaurantProcessing {
 	 * 
 	 * @return lista cu numele fiecarui meniu
 	 * @pre prices.size()==0
-	 * @post getSize()>0 && prices!=null
+	 * @post getSize(){@literal >=}0 {@literal &&} prices!=null
 	 */
 	public List<Integer> getPrices();
 
@@ -94,7 +101,7 @@ public interface RestaurantProcessing {
 	 * 
 	 * @return o lista cu ID de comenzi
 	 * @pre keys.size()==0
-	 * @post keys.size() < 0 && keys != null
+	 * @post keys.size() {@literal >=} 0 {@literal &&} keys != null
 	 */
 	public List<String> getOrderIDs();
 
@@ -111,7 +118,7 @@ public interface RestaurantProcessing {
 	 * Sterge un meniu din lista de meniu a restaurantului
 	 * 
 	 * @param m este meniul pe care vrem sa-l stergem
-	 * @pre getSize()>0 && contains(m)==true
+	 * @pre getSize(){@literal >}0 {@literal &&} contains(m)==true
 	 * @post getSize()== getSize()@pre-1
 	 * @post contains(m)==false
 	 */
@@ -123,8 +130,9 @@ public interface RestaurantProcessing {
 	 * @param nrRow este indexul meniului pe care vrem sa-l actualizam
 	 * @param name  este numele meniului
 	 * @param price este pretul meniului
-	 * @pre nrRow>=0 && name!=null && price>=1
-	 * @post (getMenus().get(nrRow).getName().equals(name) &&
+	 * @pre nrRow{@literal >=}0 {@literal &&} name!=null {@literal &&} price
+	 *      {@literal >=}1
+	 * @post (getMenus().get(nrRow).getName().equals(name) {@literal &&}
 	 *       (getMenus().get(nrRow).getPrice()==price)
 	 */
 	public void editMenuItem(int nrRow, String name, int price);
@@ -135,7 +143,8 @@ public interface RestaurantProcessing {
 	 * @param key   este pozitia la care se adauga comanda in HashMap
 	 * @param value este continutul comenzii
 	 * 
-	 * @pre key!=null && value!=null && this.getSizeOrder()>=0
+	 * @pre key!=null {@literal &&} value!=null {@literal &&} this.getSizeOrder()
+	 *      {@literal >=}0
 	 * @post getSizeOrder()==getSizeOrder()@pre+1
 	 * @post contains(key, value)==true
 	 */
@@ -145,9 +154,10 @@ public interface RestaurantProcessing {
 	 * Genereaza o factura in format .txt dupa o comanda
 	 * 
 	 * @param order este comanda pe baza careia se genereaza factura
+	 * @return true daca factura a fost corecta, altfel false
 	 * @pre order!=null
-	 * @post totalAmount>0
+	 * @post totalAmount {@literal >}0
 	 * @post writer!=null
 	 */
-	public void generateBill(Order order);
+	public boolean generateBill(Order order);
 }

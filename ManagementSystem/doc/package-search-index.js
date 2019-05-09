@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"RestaurantProject.ManagementSystem.BusinessLayer"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"RestaurantProject.ManagementSystem.BusinessLayer"},{"l":"RestaurantProject.ManagementSystem.DataLayer"},{"l":"RestaurantProject.ManagementSystem.Main"},{"l":"RestaurantProject.ManagementSystem.PresentationLayer"}]

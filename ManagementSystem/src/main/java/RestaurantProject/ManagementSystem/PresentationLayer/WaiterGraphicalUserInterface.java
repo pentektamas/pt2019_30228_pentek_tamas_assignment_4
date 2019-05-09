@@ -129,6 +129,11 @@ public class WaiterGraphicalUserInterface extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 				int row = t.getSelectedRow();
+				if (row < 0) {
+					JOptionPane.showMessageDialog(null, "Select a menu!", "ERROR New Order!",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				values.add(restaurant.getMenus().get(row));
 			}
 		});
@@ -137,6 +142,11 @@ public class WaiterGraphicalUserInterface extends JPanel {
 	public void addFinishListener() {
 		finish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (values.size() == 0) {
+					JOptionPane.showMessageDialog(null, "Error! Order contains nothing!", "Error ORDER",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				Order newOrder = new Order();
 				if (b1.isSelected())
 					newOrder.setTable(Integer.parseInt(b1.getText()));
@@ -155,12 +165,16 @@ public class WaiterGraphicalUserInterface extends JPanel {
 						return;
 					}
 				}
-
 				createNewOrder(newOrder, values);
 				if (computeBill.isSelected()) {
-					generateBill(newOrder);
-					JOptionPane.showMessageDialog(null, "Order succesfully added and bill created!", "ORDER",
-							JOptionPane.INFORMATION_MESSAGE);
+					boolean rez = generateBill(newOrder);
+					if (rez == false) {
+						JOptionPane.showMessageDialog(null, "Error! Invalid bill!", "Error ORDER",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					} else
+						JOptionPane.showMessageDialog(null, "Order succesfully added and bill created!", "ORDER",
+								JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(null, "Order succesfully added!", "ORDER",
 							JOptionPane.INFORMATION_MESSAGE);
@@ -174,8 +188,8 @@ public class WaiterGraphicalUserInterface extends JPanel {
 		restaurant.createNewOrder(key, value);
 	}
 
-	public void generateBill(Order order) {
-		restaurant.generateBill(order);
-
+	public boolean generateBill(Order order) {
+		boolean rez = restaurant.generateBill(order);
+		return rez;
 	}
 }

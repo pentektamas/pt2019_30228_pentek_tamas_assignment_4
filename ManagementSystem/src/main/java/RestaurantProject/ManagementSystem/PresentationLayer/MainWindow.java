@@ -47,7 +47,7 @@ public class MainWindow extends JFrame {
 		p.add(p1, BorderLayout.PAGE_START);
 		this.setContentPane(p);
 		this.pack();
-		this.setSize(new Dimension(600, 400));
+		this.setSize(new Dimension(600, 450));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocation(500, 200);
 		this.setTitle("Restaurant Management");
