@@ -37,7 +37,7 @@ public class ChefGraphicalUserInterface extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		if (arg instanceof CompositeProduct) {
 			this.index = this.TEMP++;
-			String element = this.index + ". " + ((CompositeProduct) arg).getName();// + products;
+			String element = this.index + ". " + ((CompositeProduct) arg).getName();
 			foods.add(element);
 			Collections.sort(foods);
 			foodList.setListData(foods.toArray());

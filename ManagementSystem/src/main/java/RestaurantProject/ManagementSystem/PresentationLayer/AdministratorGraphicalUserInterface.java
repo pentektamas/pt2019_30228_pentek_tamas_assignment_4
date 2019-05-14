@@ -283,7 +283,6 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 
 			public void actionPerformed(ActionEvent e) {
 				if (texts.size() == 1) {
-					System.out.println(texts.get(0).getText() + " SDSD");
 					if (texts.get(0).getText().equals("")) {
 						JOptionPane.showMessageDialog(null, "Component's name is INVALID!", "ERROR New Menu!",
 								JOptionPane.ERROR_MESSAGE);

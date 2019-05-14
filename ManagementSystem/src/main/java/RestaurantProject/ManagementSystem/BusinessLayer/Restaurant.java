@@ -280,7 +280,8 @@ public class Restaurant extends Observable implements RestaurantProcessing {
 		Writer writer = null;
 		FileWriter fileWriter = new FileWriter();
 		Integer totalAmount = 0;
-		String text = ("\t\t\t\tBILL\n\n\t\t\tGordon Ramsay's Restaurant\t\t\t" + "\n\t\t\tLondon, Main Street 10\n\n");
+		String text = ("\t\t\t\tBILL\n\n\t\t\tGordon Ramsay's Restaurant\t\t\t"
+				+ "\n\t\t\tLondon, Main Street 10\n\n\t\t\t\t" + order.getDate() + "\n\n");
 		try {
 			writer = fileWriter.createFile("bill" + order.getOrderID() + ".txt");
 			writer.write(text + "\n");
